@@ -96,6 +96,13 @@ public class ImageStorage {
         return this.imagesNameList.iterator();
     }
 
+    public BufferedImage getImage() {
+        if (this.imagesList.size() == 0) {
+            printError("ImageList is empty.");
+            return null;
+        }
+        return this.imagesList.get(0);
+    }
     public BufferedImage getImage(int index) {
         if (index >= this.imagesList.size()) {
             printError("ImageList index out of range.");

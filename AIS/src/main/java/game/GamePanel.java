@@ -1,27 +1,18 @@
 package game;
 
+import engine.tools.ImageStorage;
 import engine.tools.Logger;
 import engine.tools.Time;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class GamePanel extends JPanel implements Runnable {
     Logger logger;
-    final BufferedImage image;
-
-    {
-        try {
-            image = ImageIO.read(new File("img/tmp.png"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    ImageStorage playerImage;
+    ImageStorage numbersImages;
 
     // Screen settings
     final int originalTileSize = 32; // 32x32 tile
@@ -29,6 +20,10 @@ public class GamePanel extends JPanel implements Runnable {
     final int tileSize = originalTileSize * tileScale; // 96x96 tile
     int screenWidth;
     int screenHeight;
+    int FPS = 0;
+    int fontScale = 3;
+    int fontWidth = 6;
+    int fontHeight = 7;
 
     KeyHandler keyHandler;
     Thread gameThread;
@@ -50,6 +45,20 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
         this.requestFocusInWindow();
         this.gameThreadIsRunning = false;
+
+        this.playerImage = new ImageStorage("img/tmp.png");
+        ArrayList<String> numbersFileNameNames = new ArrayList<>(10);
+        numbersFileNameNames.add("img/pixelFont/Number0.png");
+        numbersFileNameNames.add("img/pixelFont/Number1.png");
+        numbersFileNameNames.add("img/pixelFont/Number2.png");
+        numbersFileNameNames.add("img/pixelFont/Number3.png");
+        numbersFileNameNames.add("img/pixelFont/Number4.png");
+        numbersFileNameNames.add("img/pixelFont/Number5.png");
+        numbersFileNameNames.add("img/pixelFont/Number6.png");
+        numbersFileNameNames.add("img/pixelFont/Number7.png");
+        numbersFileNameNames.add("img/pixelFont/Number8.png");
+        numbersFileNameNames.add("img/pixelFont/Number9.png");
+        this.numbersImages = new ImageStorage(numbersFileNameNames);
     }
 
     public void setLogger(Logger logger) {
@@ -77,7 +86,7 @@ public class GamePanel extends JPanel implements Runnable {
             drawCount++;
 
             if (currentTime - timer >= 1) {
-                logger.info(this, "FPS = " + drawCount + ".");
+                this.FPS = drawCount;
                 drawCount = 0;
                 timer = currentTime;
             }
@@ -116,7 +125,15 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-        graphics.drawImage(image, 0, 0, screenWidth, screenHeight, null);
-        graphics.drawImage(image, (int)playerPosX, (int)playerPosY, tileSize, tileSize, null);
+        graphics.drawImage(playerImage.getImage(), 0, 0, screenWidth, screenHeight, null);
+        graphics.drawImage(playerImage.getImage(), (int)playerPosX, (int)playerPosY, tileSize, tileSize, null);
+        int currentFPS = this.FPS;
+        int xPos = screenWidth - 5 - fontWidth * fontScale;
+        int yPos = 5;
+        while (currentFPS > 0) {
+            graphics.drawImage(numbersImages.getImage(currentFPS % 10), xPos, yPos, fontWidth * fontScale, fontHeight * fontScale, null);
+            xPos -= fontWidth * fontScale + 5;
+            currentFPS /= 10;
+        }
     }
 }
