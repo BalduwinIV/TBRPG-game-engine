@@ -1,11 +1,19 @@
 package engine;
 
+import engine.tools.Logger;
 import game.GamePanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class MainWindow extends JFrame {
+    JPanel loggerPanel;
+    GamePanel gameWindow;
+    JPanel objectPanel;
+    JPanel parametersPanel;
+    Logger logger;
     JFrame window;
     public MainWindow() {
         this.window = new JFrame();
@@ -16,38 +24,62 @@ public class MainWindow extends JFrame {
         this.window.setPreferredSize(this.window.getSize());
     }
 
+    public void setLogger(Logger logger) {
+        this.logger = logger;
+    }
+
     public void start() {
-        Button button;
-        GamePanel gameWindow = new GamePanel(1280,720);
-        gameWindow.setPreferredSize(new Dimension(1280, 720));
         JPanel toolBar = new JPanel();
         GridLayout toolBarGrid = new GridLayout(1, 3);
         toolBar.setLayout(toolBarGrid);
         toolBar.add(new Button("Menu"));
-        button = new Button("Compile");
-        toolBar.add(button);
+        Button compileButton = new Button("Compile");
+        compileButton.addActionListener(e -> {
+            if (gameWindow.getGameThreadStatus().get()) {
+                gameWindow.stopGameThread();
+            } else {
+                gameWindow.startGameThread();
+            }
+        });
+        toolBar.add(compileButton);
         toolBar.add(new Button("Options"));
 
         window.setLayout(new BorderLayout(5, 5));
 
         window.add(toolBar, BorderLayout.NORTH);
 
-        button = new Button("Objects");
-        button.setPreferredSize(new Dimension(250, 720));
-        window.add(button, BorderLayout.WEST);
+        objectPanel = new JPanel();
+        objectPanel.setBackground(Color.YELLOW);
+        objectPanel.setPreferredSize(new Dimension(1850, 300));
+        window.add(objectPanel, BorderLayout.SOUTH);
 
+        gameWindow = new GamePanel(1280,720);
         window.add(gameWindow, BorderLayout.CENTER);
 
-        button = new Button("Parameters");
-        button.setPreferredSize(new Dimension(320, 720));
-        window.add(button, BorderLayout.EAST);
+        parametersPanel = new JPanel();
+        parametersPanel.setBackground(Color.ORANGE);
+        parametersPanel.setPreferredSize(new Dimension(320, 720));
+        window.add(parametersPanel, BorderLayout.EAST);
 
-        button = new Button("Console");
-        button.setPreferredSize(new Dimension(1850, 300));
-        window.add(button, BorderLayout.SOUTH);
+        loggerPanel = new JPanel();
+        loggerPanel.setBackground(Color.GREEN);
+        loggerPanel.setPreferredSize(new Dimension(250, 720));
+        window.add(loggerPanel, BorderLayout.WEST);
 
         window.pack();
         window.setLocationRelativeTo(null);
         window.setVisible(true);
+
+        Dimension screenSize = gameWindow.getSize();
+        logger.info(gameWindow, "gameWindow screenWidth = " + screenSize.width + ", gameWindow screenHeight = " + screenSize.height);
+        gameWindow.changeScreenSize(screenSize.width, screenSize.height);
+        window.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                Dimension screenSize = gameWindow.getSize();
+                gameWindow.changeScreenSize(screenSize.width, screenSize.height);
+                super.componentResized(e);
+            }
+        });
     }
 }
