@@ -1,12 +1,9 @@
 package engine;
 
 import game.GamePanel;
-import game.KeyHandler;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class MainWindow extends JFrame {
     JFrame window;
@@ -28,16 +25,6 @@ public class MainWindow extends JFrame {
         toolBar.setLayout(toolBarGrid);
         toolBar.add(new Button("Menu"));
         button = new Button("Compile");
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (gameWindow.isGameThreadIsRunning()) {
-                    gameWindow.stopGameThread();
-                } else {
-                    gameWindow.startGameThread();
-                }
-            }
-        });
         toolBar.add(button);
         toolBar.add(new Button("Options"));
 

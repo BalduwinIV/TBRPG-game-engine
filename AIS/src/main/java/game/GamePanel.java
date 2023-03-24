@@ -1,23 +1,35 @@
 package game;
 
+import engine.tools.Logger;
 import engine.tools.Time;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 
 public class GamePanel extends JPanel implements Runnable {
+    Logger logger;
+    final BufferedImage image;
+
+    {
+        try {
+            image = ImageIO.read(new File("img/tmp.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     // Screen settings
     final int originalTileSize = 32; // 32x32 tile
     final int tileScale = 3;
     final int tileSize = originalTileSize * tileScale; // 96x96 tile
-    final int tilesCountHorizontal = 20;
-    final int tilesCountVertical = 12;
     int screenWidth;
     int screenHeight;
 
-    int screenFPS = 60;
-    int inGameFPS = 100;
     KeyHandler keyHandler;
     Thread gameThread;
     boolean gameThreadIsRunning;
@@ -40,6 +52,10 @@ public class GamePanel extends JPanel implements Runnable {
         this.gameThreadIsRunning = false;
     }
 
+    public void setLogger(Logger logger) {
+        this.logger = logger;
+    }
+
     public void startGameThread() {
         this.gameThreadIsRunning = true;
         gameThread = new Thread(this);
@@ -48,11 +64,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        double inGameTimer = 0;
-        double screenTimer = 0;
         double timer = 0;
         int drawCount = 0;
-        int gameCount = 0;
         double currentTime;
         Time time = new Time();
         double lastTime = time.getTimeInSec();
@@ -64,7 +77,7 @@ public class GamePanel extends JPanel implements Runnable {
             drawCount++;
 
             if (currentTime - timer >= 1) {
-                System.out.println("FPS = " + drawCount);
+                logger.info(this, "FPS = " + drawCount + ".");
                 drawCount = 0;
                 timer = currentTime;
             }
@@ -103,10 +116,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-
-        Graphics2D graphics2D =(Graphics2D)graphics;
-        graphics2D.setColor(Color.white);
-        graphics2D.fillRect((int)playerPosX, (int)playerPosY, tileSize, tileSize);
-        graphics2D.dispose();
+        graphics.drawImage(image, 0, 0, screenWidth, screenHeight, null);
+        graphics.drawImage(image, (int)playerPosX, (int)playerPosY, tileSize, tileSize, null);
     }
 }
