@@ -1,8 +1,11 @@
 package engine.tools;
 
+import engine.panels.LoggerPanel;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +13,11 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Logger implements Runnable {
+    LoggerPanel loggerPanel;
     private Thread loggerThread;
+    private final AtomicBoolean isLogging = new AtomicBoolean(false);
     private final String logFileName;
     private File logFile;
-    private final AtomicBoolean isLogging = new AtomicBoolean(false);
     private final List<String> loggerBuffer;
     private FileWriter fileWriter;
 
@@ -23,7 +27,11 @@ public class Logger implements Runnable {
     public Logger (String logFileName) {
         this.logFileName = logFileName;
         try {
-            logFile = new File(logFileName);
+            File logDir = new File("logs");
+            if (!logDir.exists()) {
+                logDir.mkdirs();
+            }
+            logFile = new File(Paths.get("logs", this.logFileName).toString());
             if (logFile.createNewFile()) {
                 System.err.println("Logger file \"" + logFileName + "\" was created.");
                 fileWriter = new FileWriter(logFile, true);
@@ -38,6 +46,10 @@ public class Logger implements Runnable {
         } finally {
             loggerBuffer = new ArrayList<>(100);
         }
+    }
+
+    public void connectLoggerPanel(LoggerPanel loggerPanel) {
+        this.loggerPanel = loggerPanel;
     }
 
     public String getLogFileName() {
@@ -61,15 +73,32 @@ public class Logger implements Runnable {
 
     public void info(Object obj, String message) {
         String dateTime = LocalDateTime.now().toString();
-        loggerBuffer.add("[INFO]\t\t" + dateTime + " <" + obj.getClass().getSimpleName() + ">: " + message + "\n");
+        String infoMessage = "[INFO]\t\t" + dateTime + " <" + obj.getClass().getSimpleName() + ">: " + message + "\n";
+        loggerBuffer.add(infoMessage);
+
+        if (Objects.nonNull(this.loggerPanel)) {
+            this.loggerPanel.addInfoMessage(this, infoMessage);
+        }
     }
+
     public void warning(Object obj, String message) {
         String dateTime = LocalDateTime.now().toString();
-        loggerBuffer.add("[WARNING]\t" + dateTime + " <" + obj.getClass().getSimpleName() + ">: " + message + "\n");
+        String warningMessage = "[WARNING]\t" + dateTime + " <" + obj.getClass().getSimpleName() + ">: " + message + "\n";
+        loggerBuffer.add(warningMessage);
+
+        if (Objects.nonNull(this.loggerPanel)) {
+            this.loggerPanel.addWarningMassage(this, warningMessage);
+        }
     }
+
     public void error(Object obj, String message) {
         String dateTime = LocalDateTime.now().toString();
-        loggerBuffer.add("[ERROR]\t\t" + dateTime + " <" + obj.getClass().getSimpleName() + ">: " + message + "\n");
+        String errorMessage = "[ERROR]\t\t" + dateTime + " <" + obj.getClass().getSimpleName() + ">: " + message + "\n";
+        loggerBuffer.add(errorMessage);
+
+        if (Objects.nonNull(this.loggerPanel)) {
+            this.loggerPanel.addErrorMessage(this, errorMessage);
+        }
     }
     @Override
     public void run() {

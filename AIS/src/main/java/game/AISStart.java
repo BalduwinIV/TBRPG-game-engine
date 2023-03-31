@@ -1,5 +1,6 @@
 package game;
 
+import engine.panels.GamePanel;
 import engine.tools.Logger;
 
 import javax.swing.*;

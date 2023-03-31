@@ -1,6 +1,7 @@
-package game;
+package engine.panels;
 
 import engine.tools.ImageStorage;
+import engine.tools.KeyHandler;
 import engine.tools.Logger;
 import engine.tools.Time;
 
@@ -131,6 +132,7 @@ public class GamePanel extends JPanel implements Runnable {
 
             if (currentTime - timer >= 1) {
                 this.FPS = drawCount;
+                logger.error(this, "FPS: " + FPS);
                 drawCount = 0;
                 timer = currentTime;
             }

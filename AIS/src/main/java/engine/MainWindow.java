@@ -1,7 +1,8 @@
 package engine;
 
+import engine.panels.LoggerPanel;
 import engine.tools.Logger;
-import game.GamePanel;
+import engine.panels.GamePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,11 +10,11 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 public class MainWindow extends JFrame {
-    JPanel loggerPanel;
+    LoggerPanel loggerPanel;
     GamePanel gameWindow;
     JPanel objectPanel;
     JPanel parametersPanel;
-    Logger logger;
+    Logger mainWindowLogger;
     JFrame window;
     public MainWindow() {
         this.window = new JFrame();
@@ -25,7 +26,7 @@ public class MainWindow extends JFrame {
     }
 
     public void setLogger(Logger logger) {
-        this.logger = logger;
+        this.mainWindowLogger = logger;
     }
 
     public void start() {
@@ -37,8 +38,10 @@ public class MainWindow extends JFrame {
         compileButton.addActionListener(e -> {
             if (gameWindow.getGameThreadStatus().get()) {
                 gameWindow.stopGameThread();
+                mainWindowLogger.info(compileButton, "Game loop has been stopped.");
             } else {
                 gameWindow.startGameThread();
+                mainWindowLogger.info(compileButton, "Game loop has been started.");
             }
         });
         toolBar.add(compileButton);
@@ -54,6 +57,9 @@ public class MainWindow extends JFrame {
         window.add(objectPanel, BorderLayout.SOUTH);
 
         gameWindow = new GamePanel(1280,720);
+        Logger gameLogger = new Logger("GameLogger.log");
+        gameWindow.setLogger(gameLogger);
+        gameLogger.info(gameWindow, "New GameLogger instance.");
         window.add(gameWindow, BorderLayout.CENTER);
 
         parametersPanel = new JPanel();
@@ -61,8 +67,9 @@ public class MainWindow extends JFrame {
         parametersPanel.setPreferredSize(new Dimension(320, 720));
         window.add(parametersPanel, BorderLayout.EAST);
 
-        loggerPanel = new JPanel();
-        loggerPanel.setBackground(Color.GREEN);
+        loggerPanel = new LoggerPanel();
+        loggerPanel.addLogger(mainWindowLogger);
+        loggerPanel.addLogger(gameLogger);
         loggerPanel.setPreferredSize(new Dimension(250, 720));
         window.add(loggerPanel, BorderLayout.WEST);
 
@@ -71,7 +78,7 @@ public class MainWindow extends JFrame {
         window.setVisible(true);
 
         Dimension screenSize = gameWindow.getSize();
-        logger.info(gameWindow, "gameWindow screenWidth = " + screenSize.width + ", gameWindow screenHeight = " + screenSize.height);
+        mainWindowLogger.info(gameWindow, "gameWindow screenWidth = " + screenSize.width + ", gameWindow screenHeight = " + screenSize.height);
         gameWindow.changeScreenSize(screenSize.width, screenSize.height);
         window.addComponentListener(new ComponentAdapter() {
             @Override
