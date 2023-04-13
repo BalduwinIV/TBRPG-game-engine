@@ -8,13 +8,14 @@ import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import java.awt.*;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 /**
  * Logger panel with several tab to show each logger separately.
  */
 public class LoggerPanel extends JPanel {
-    private ArrayList<Logger> loggers;
+    private final ArrayList<Logger> loggers;
     private final JTabbedPane tabbedPane;
     private final ArrayList<JTextPane> textAreas;
     private final ArrayList<Document> documents;
@@ -71,7 +72,7 @@ public class LoggerPanel extends JPanel {
         logger.connectLoggerPanel(this);
 
         if (tabbedPane.getTabCount() == loggers.size()) {
-            tabbedPane.setTitleAt(0, logger.getLogFileName());
+            tabbedPane.setTitleAt(0, Paths.get(logger.getLogFileName()).getFileName().toString());
         } else {
             JTextPane new_textArea = new JTextPane();
             new_textArea.setEditable(false);

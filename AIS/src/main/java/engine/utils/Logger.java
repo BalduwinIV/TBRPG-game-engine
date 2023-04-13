@@ -34,11 +34,11 @@ public class Logger implements Runnable {
     public Logger (String logFileName) {
         this.logFileName = logFileName;
         try {
-            File logDir = new File("logs");
+            File logDir = new File("src/main/resources/logs");
             if (!logDir.exists()) {
                 logDir.mkdirs();
             }
-            logFile = new File(Paths.get("logs", this.logFileName).toString());
+            logFile = new File(Paths.get("src/main/resources/logs", this.logFileName).toString());
             if (logFile.createNewFile()) {
                 System.err.println("Logger file \"" + logFileName + "\" was created.");
                 fileWriter = new FileWriter(logFile, true);
