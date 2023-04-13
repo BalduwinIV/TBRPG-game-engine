@@ -1,4 +1,14 @@
 package engine.panels;
 
-public class ToolBar {
+import javax.swing.*;
+
+/**
+ * Toolbar class with buttons and options.
+ */
+public class ToolBar extends JPanel {
+    public ToolBar() {
+        /*
+        * Add objects to toolbar GUI.
+        * */
+    }
 }

@@ -1,6 +1,6 @@
 package engine.panels;
 
-import engine.tools.Logger;
+import engine.utils.Logger;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -10,8 +10,11 @@ import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Logger panel with several tab to show each logger separately.
+ */
 public class LoggerPanel extends JPanel {
-    ArrayList<Logger> loggers;
+    private ArrayList<Logger> loggers;
     private final JTabbedPane tabbedPane;
     private final ArrayList<JTextPane> textAreas;
     private final ArrayList<Document> documents;
@@ -59,6 +62,10 @@ public class LoggerPanel extends JPanel {
         this.setVisible(true);
     }
 
+    /**
+     * Connects logger to current object.
+     * @param   logger  Logger, which content will be shown in LoggerPanel tabs.
+     */
     public void addLogger(Logger logger) {
         loggers.add(logger);
         logger.connectLoggerPanel(this);
@@ -83,6 +90,11 @@ public class LoggerPanel extends JPanel {
         }
     }
 
+    /**
+     * Adds error message in a specific loggers tab.
+     * @param   logger  Logger that sent the message.
+     * @param   message Logger message.
+     */
     public void addErrorMessage(Logger logger, String message) {
         try {
             for (int i = 0; i < loggers.size(); i++) {
@@ -98,6 +110,11 @@ public class LoggerPanel extends JPanel {
         }
     }
 
+    /**
+     * Adds info message in a specific loggers tab.
+     * @param   logger  Logger that sent the message.
+     * @param   message Logger message.
+     */
     public void addInfoMessage(Logger logger, String message) {
         try {
             for (int i = 0; i < loggers.size(); i++) {
@@ -112,6 +129,11 @@ public class LoggerPanel extends JPanel {
         }
     }
 
+    /**
+     * Adds warning message in a specific loggers tab.
+     * @param   logger  Logger that sent the message.
+     * @param   message Logger message.
+     */
     public void addWarningMassage(Logger logger, String message) {
         try {
             for (int i = 0; i < loggers.size(); i++) {

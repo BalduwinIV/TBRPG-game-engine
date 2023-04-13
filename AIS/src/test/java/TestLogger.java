@@ -1,5 +1,5 @@
-import engine.tools.Logger;
-import engine.tools.Time;
+import engine.utils.Logger;
+import engine.utils.Time;
 
 public class TestLogger {
     public static void main(String [] args) {

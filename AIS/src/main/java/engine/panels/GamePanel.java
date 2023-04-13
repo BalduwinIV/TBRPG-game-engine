@@ -1,188 +1,84 @@
 package engine.panels;
 
-import engine.tools.ImageStorage;
-import engine.tools.KeyHandler;
-import engine.tools.Logger;
-import engine.tools.Time;
+import engine.utils.Logger;
+import game.Game;
 
 import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-public class GamePanel extends JPanel implements Runnable {
-    Logger logger;
-    ImageStorage playerImage;
-    ImageStorage numbersImages;
+/**
+ * Engines game panel class.
+ */
+public class GamePanel extends JPanel {
+    private Logger logger;
+    private int[] panelSize;
+    private double[] screenRatio;
+    private Game game;
 
-    final int originalTileSize = 32; // 32x32 tile
-    final int tileScale = 3;
-    final int tileSize = originalTileSize * tileScale; // 96x96 tile
-    final int [] screenRatio = {16, 9};
-    int screenWidth;
-    int screenHeight;
-    int FPS = 0;
-    int fontScale = 3;
-    int fontWidth = 6;
-    int fontHeight = 7;
+    public GamePanel() {
+        screenRatio = new double[2];
+        screenRatio[0] = 16;
+        screenRatio[1] = 9;
 
-    KeyHandler keyHandler;
-    Thread gameThread;
-    AtomicBoolean gameThreadIsRunning;
-    double playerPosX = 100;
-    double playerPosY = 100;
-    double playerMaxSpeed = 4 * tileSize;
-    double playerAcceleration = tileSize;
-    double playerSpeed = 0; // TODO: implement Vector class with addition and multiplication methods.
+        panelSize = new int[2];
+        panelSize[0] = 800;
+        panelSize[1] = 450;
 
-    public GamePanel(int screenWidth, int screenHeight) {
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
-        if (this.screenWidth / this.screenRatio[0] < this.screenHeight / this.screenRatio[1]) {
-            this.screenHeight = screenWidth / this.screenRatio[0] * this.screenRatio[1];
-        } else {
-            this.screenWidth = screenHeight / this.screenRatio[1] * this.screenRatio[0];
-        }
-        this.keyHandler = new KeyHandler();
-        this.setPreferredSize(new Dimension(this.screenWidth, this.screenHeight));
-        this.setBackground(Color.black);
-        this.setDoubleBuffered(true);
-        this.addKeyListener(keyHandler);
-        this.setFocusable(true);
-        this.gameThreadIsRunning = new AtomicBoolean(false);
-
-        this.playerImage = new ImageStorage("img/tmp.png");
-        ArrayList<String> numbersFileNameNames = new ArrayList<>(10);
-        numbersFileNameNames.add("img/pixelFont/Number0.png");
-        numbersFileNameNames.add("img/pixelFont/Number1.png");
-        numbersFileNameNames.add("img/pixelFont/Number2.png");
-        numbersFileNameNames.add("img/pixelFont/Number3.png");
-        numbersFileNameNames.add("img/pixelFont/Number4.png");
-        numbersFileNameNames.add("img/pixelFont/Number5.png");
-        numbersFileNameNames.add("img/pixelFont/Number6.png");
-        numbersFileNameNames.add("img/pixelFont/Number7.png");
-        numbersFileNameNames.add("img/pixelFont/Number8.png");
-        numbersFileNameNames.add("img/pixelFont/Number9.png");
-        this.numbersImages = new ImageStorage(numbersFileNameNames);
+        game = new Game();
     }
 
-    private void printError(String errorMessage) {
-        if (Objects.nonNull(logger)) {
-            logger.error(this, errorMessage);
-        } else {
-            System.err.println(errorMessage);
-        }
+    public GamePanel(int panelWidth, int panelHeight) {
+        screenRatio = new double[2];
+        screenRatio[0] = panelWidth;
+        screenRatio[1] = panelHeight;
+
+        panelSize = new int[2];
+        panelSize[0] = panelWidth;
+        panelSize[1] = panelHeight;
+
+        game = new Game();
     }
 
-    public void changeScreenSize(int screenWidth, int screenHeight) {
-        if (screenWidth <= 0 || screenHeight <= 0) {
-            printError("Bad window size: {screenWidth = " + screenWidth + ", screenHeight = " + screenHeight + "}.");
+    public void changePanelSize(int panelWidth, int panelHeight) {
+        if (panelWidth <= 0 || panelHeight <= 0) {
+            logger.error(this, "Bad window size: {panelWidth = " + panelWidth + ", panelHeight = " + panelHeight + "}.");
             return;
         }
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
-        if (this.screenWidth / this.screenRatio[0] < this.screenHeight / this.screenRatio[1]) {
-            this.screenHeight = screenWidth / this.screenRatio[0] * this.screenRatio[1];
+        int newWidth = panelWidth;
+        int newHeight = panelHeight;
+        if (newWidth / this.screenRatio[0] < newHeight / this.screenRatio[1]) {
+            newHeight = (int)(panelWidth / this.screenRatio[0] * this.screenRatio[1]);
         } else {
-            this.screenWidth = screenHeight / this.screenRatio[1] * this.screenRatio[0];
+            newWidth = (int)(panelHeight / this.screenRatio[1] * this.screenRatio[0]);
         }
-        this.setSize(this.screenWidth, this.screenHeight);
+        this.setSize(newWidth, newHeight);
     }
 
+    /**
+     * Connects logger to current object.
+     * @param   logger  Logger, that will be used for logging current class actions.
+     */
     public void setLogger(Logger logger) {
         this.logger = logger;
     }
 
-    public void startGameThread() {
-        resetGameThread(); // temporary
-        gameThread = new Thread(this);
-        gameThread.start();
-        this.gameThreadIsRunning.set(true);
-        this.requestFocus();
+    /**
+     * Starts game.
+     */
+    public void startGame() {
+        game.start();
     }
 
-    public void resetGameThread() {
-        this.playerPosX = 100;
-        this.playerPosY = 100;
-        this.playerSpeed = 0;
+    /**
+     * Pauses game.
+     */
+    public void pauseGame() {
+        game.pause();
     }
 
-    public void stopGameThread() {
-        this.gameThreadIsRunning.set(false);
-    }
-
-    public AtomicBoolean getGameThreadStatus() {
-        return this.gameThreadIsRunning;
-    }
-
-    @Override
-    public void run() {
-        Time time = new Time();
-        int drawCount = 0;  // FPS counter
-        double timer = 0;   // 1-second timer
-        double currentTime;
-        double lastTime = time.getTimeInSec();
-        while (Objects.nonNull(gameThread) && this.gameThreadIsRunning.get()) {
-            currentTime = time.getTimeInSec();
-
-            update(currentTime - lastTime);
-            repaint();
-            drawCount++;
-
-            if (currentTime - timer >= 1) {
-                this.FPS = drawCount;
-                logger.error(this, "FPS: " + FPS);
-                drawCount = 0;
-                timer = currentTime;
-            }
-            lastTime = currentTime;
-            try {
-                Thread.sleep(0, 1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void update(double time) {
-        if (!keyHandler.isUpPressed() && !keyHandler.isDownPressed() && !keyHandler.isLeftPressed() && !keyHandler.isRightPressed()) {
-            playerSpeed -= playerAcceleration * time;
-            if (playerSpeed < 0) {
-                playerSpeed = 0;
-            }
-        } else {
-            playerSpeed += playerAcceleration * time;
-            if (playerSpeed > playerMaxSpeed) {
-                playerSpeed = playerMaxSpeed;
-            }
-        }
-
-        if (keyHandler.isUpPressed()) {
-            playerPosY -= playerSpeed * time;
-        }
-        if (keyHandler.isDownPressed()) {
-            playerPosY += playerSpeed * time;
-        }
-        if (keyHandler.isLeftPressed()) {
-            playerPosX -= playerSpeed * time;
-        }
-        if (keyHandler.isRightPressed()) {
-            playerPosX += playerSpeed * time;
-        }
-    }
-
-    public void paintComponent(Graphics graphics) {
-        super.paintComponent(graphics);
-        graphics.drawImage(playerImage.getImage(), 0, 0, screenWidth, screenHeight, null);
-        graphics.drawImage(playerImage.getImage(), (int)playerPosX, (int)playerPosY, tileSize, tileSize, null);
-        int currentFPS = this.FPS;
-        int xPos = screenWidth - 5 - fontWidth * fontScale;
-        int yPos = 5;
-        while (currentFPS > 0) {
-            graphics.drawImage(numbersImages.getImage(currentFPS % 10), xPos, yPos, fontWidth * fontScale, fontHeight * fontScale, null);
-            xPos -= fontWidth * fontScale + 5;
-            currentFPS /= 10;
-        }
+    /**
+     * Stops game.
+     */
+    public void stopGame() {
+        game.stop();
     }
 }

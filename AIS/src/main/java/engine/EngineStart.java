@@ -1,6 +1,7 @@
 package engine;
 
-import engine.tools.Logger;
+import engine.panels.MainWindow;
+import engine.utils.Logger;
 
 public class EngineStart {
     public static void main(String[] args) {

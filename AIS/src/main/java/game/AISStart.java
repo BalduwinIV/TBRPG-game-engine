@@ -1,7 +1,7 @@
 package game;
 
 import engine.panels.GamePanel;
-import engine.tools.Logger;
+import engine.utils.Logger;
 
 import javax.swing.*;
 
@@ -30,6 +30,6 @@ public class AISStart {
         window.setVisible(true);
 
         logger.info(gamePanel, "Starting gameThread.");
-        gamePanel.startGameThread();
+        gamePanel.startGame();
     }
 }
