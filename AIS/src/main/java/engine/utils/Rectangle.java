@@ -4,10 +4,10 @@ package engine.utils;
  * Class for objects parameters and calculating collision between that objects.
  */
 public class Rectangle {
-    private double[] position;
-    private double[] size;
+    private final double[] position;
+    private final double[] size;
 
-    public Rectangle(double positionY, double positionX, double width, double height) {
+    public Rectangle(double positionX, double positionY, double width, double height) {
         position = new double[2];
         position[0] = positionX;
         position[1] = positionY;
@@ -16,7 +16,7 @@ public class Rectangle {
         size[1] = height;
     }
 
-    public void setPosition(double y, double x) {
+    public void setPosition(double x, double y) {
         position[0] = x;
         position[1] = y;
     }
@@ -26,7 +26,7 @@ public class Rectangle {
         size[1] = height;
     }
 
-    public void changePosition(double y, double x) {
+    public void changePosition(double x, double y) {
         position[0] += x;
         position[1] += y;
     }
@@ -62,7 +62,38 @@ public class Rectangle {
         return position;
     }
 
+    public double getPositionX() {
+        return position[0];
+    }
+
+    public double getPositionY() {
+        return position[1];
+    }
+
     public double[] getSize() {
         return size;
+    }
+
+    public double getWidth() {
+        return size[0];
+    }
+
+    public double getHeight() {
+        return size[1];
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof Rectangle other)) {
+            return false;
+        }
+
+        return (position[0] == other.getPositionX()) &&
+                (position[1] == other.getPositionY()) &&
+                (size[0] == other.getWidth()) &&
+                (size[1] == other.getHeight());
     }
 }
