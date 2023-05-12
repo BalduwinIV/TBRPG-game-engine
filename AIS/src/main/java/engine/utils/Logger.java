@@ -95,6 +95,7 @@ public class Logger implements Runnable {
      */
     public void stopLogging() {
         isLogging.set(false);
+        copyFromBufferToFile();
     }
 
     /**
