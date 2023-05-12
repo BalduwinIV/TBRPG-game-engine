@@ -42,6 +42,35 @@ public class ButtonHandler implements MouseListener {
         button.setIcon(this.defaultIcon);
     }
 
+    public void setState(String state) {
+        switch (state) {
+            case "default" -> {
+                isActive = false;
+                button.setIcon(defaultIcon);
+            }
+            case "hover" -> {
+                isActive = false;
+                button.setIcon(hoverIcon);
+            }
+            case "pressed" -> {
+                isActive = false;
+                button.setIcon(pressedIcon);
+            }
+            case "active" -> {
+                isActive = true;
+                button.setIcon(activeDefaultIcon);
+            }
+            case "activeHover" -> {
+                isActive = true;
+                button.setIcon(activeHoverIcon);
+            }
+            case "activePressed" -> {
+                isActive = true;
+                button.setIcon(activePressedIcon);
+            }
+        }
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
         if (isActive) {

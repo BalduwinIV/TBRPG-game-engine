@@ -1,6 +1,7 @@
 package engine.panels;
 
 import engine.tools.GameLevels;
+import engine.tools.GameState;
 import engine.utils.ButtonHandler;
 
 import javax.swing.*;
@@ -30,14 +31,21 @@ public class ToolBar extends JPanel {
 
         JButton startButton = new JButton();
         startButton.setRolloverEnabled(false);
-        startButton.addMouseListener(new ButtonHandler(startButton, 30, 30,
+        ButtonHandler startButtonHandler = new ButtonHandler(startButton, 30, 30,
                 "src/main/resources/img/gui_icons/start_button_default.png",
                 "src/main/resources/img/gui_icons/start_button_hover.png",
                 "src/main/resources/img/gui_icons/start_button_pressed.png",
                 "src/main/resources/img/gui_icons/start_button_active.png",
                 "src/main/resources/img/gui_icons/start_button_active_hover.png",
-                "src/main/resources/img/gui_icons/start_button_active_pressed.png"));
-        startButton.addActionListener(e -> gamePanel.startGame());
+                "src/main/resources/img/gui_icons/start_button_active_pressed.png");
+        startButton.addMouseListener(startButtonHandler);
+        startButton.addActionListener(e -> {
+            if (gamePanel.gameState == GameState.STATE_GAMEPLAY) {
+                gamePanel.stopGame();
+            } else {
+                gamePanel.startGame();
+            }
+        });
         startButton.setPreferredSize(new Dimension(30, 30));
 
         JButton pauseButton = new JButton();
@@ -54,7 +62,10 @@ public class ToolBar extends JPanel {
                 "src/main/resources/img/gui_icons/stop_button.png",
                 "src/main/resources/img/gui_icons/stop_button_hover.png",
                 "src/main/resources/img/gui_icons/stop_button_pressed.png"));
-        stopButton.addActionListener(e -> gamePanel.stopGame());
+        stopButton.addActionListener(e -> {
+            gamePanel.stopGame();
+            startButtonHandler.setState("default");
+        });
         stopButton.setPreferredSize(new Dimension(30, 30));
 
 
