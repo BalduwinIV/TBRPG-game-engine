@@ -1,5 +1,6 @@
 package engine.panels;
 
+import engine.tools.GameLevels;
 import engine.utils.Logger;
 
 import javax.swing.*;
@@ -11,11 +12,7 @@ import java.awt.event.ComponentEvent;
  * Engines window class.
  */
 public class MainWindow extends JFrame {
-    private ToolBar toolBar;
-    private LoggerPanel loggerPanel;
     private GamePanel gameWindow;
-    private ObjectsPanel objectsPanel;
-    private ParametersPanel parametersPanel;
     private Logger mainWindowLogger;
     private final JFrame window;
     public MainWindow() {
@@ -39,20 +36,12 @@ public class MainWindow extends JFrame {
      * Adding all necessary panels to window and shows it to user.
      */
     public void start() {
-        JPanel toolBar = new JPanel();
-        GridLayout toolBarGrid = new GridLayout(1, 3);
-        toolBar.setLayout(toolBarGrid);
-        toolBar.add(new Button("Menu"));
-        Button compileButton = new Button("Compile");
-        toolBar.add(compileButton);
-        toolBar.add(new Button("Options"));
-
         window.setLayout(new BorderLayout(5, 5));
+        window.setBackground(new Color(0xcccccc));
 
-        window.add(toolBar, BorderLayout.NORTH);
+        GameLevels gameLevels = new GameLevels("src/main/resources/levels.json");
 
-        objectsPanel = new ObjectsPanel();
-        objectsPanel.setBackground(Color.YELLOW);
+        ObjectsPanel objectsPanel = new ObjectsPanel();
         objectsPanel.setPreferredSize(new Dimension(1850, 300));
         window.add(objectsPanel, BorderLayout.SOUTH);
 
@@ -60,14 +49,19 @@ public class MainWindow extends JFrame {
         Logger gameLogger = new Logger("GameLogger.log");
         gameWindow.setLogger(gameLogger);
         gameLogger.info(gameWindow, "New GameLogger instance.");
+        gameWindow.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         window.add(gameWindow, BorderLayout.CENTER);
 
-        parametersPanel = new ParametersPanel();
+        ToolBar toolBar = new ToolBar(gameLevels, gameWindow);
+        toolBar.setBackground(new Color(0xb3b3b3));
+        window.add(toolBar, BorderLayout.NORTH);
+
+        ParametersPanel parametersPanel = new ParametersPanel();
         parametersPanel.setBackground(Color.ORANGE);
         parametersPanel.setPreferredSize(new Dimension(320, 720));
         window.add(parametersPanel, BorderLayout.EAST);
 
-        loggerPanel = new LoggerPanel();
+        LoggerPanel loggerPanel = new LoggerPanel();
         loggerPanel.addLogger(mainWindowLogger);
         loggerPanel.addLogger(gameLogger);
         loggerPanel.setPreferredSize(new Dimension(250, 720));
