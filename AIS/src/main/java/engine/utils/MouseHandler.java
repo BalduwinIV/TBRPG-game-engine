@@ -15,12 +15,16 @@ public class MouseHandler implements MouseListener {
     private final List<Point> doubleClickedList;
     private final AtomicBoolean isPressed;
     private final AtomicBoolean isOnScreen;
+    private final int[] cursorPosition;
+    private final int[] lastCursorPosition;
 
     public MouseHandler() {
         clickedList = new ArrayList<>(1);
         doubleClickedList = new ArrayList<>(1);
         isPressed = new AtomicBoolean(false);
         isOnScreen = new AtomicBoolean(true);
+        cursorPosition = new int[2];
+        lastCursorPosition = new int[2];
     }
 
     /**
@@ -42,12 +46,25 @@ public class MouseHandler implements MouseListener {
      * @return  Cursor position as array [x, y].
      */
     public int[] getCursorPosition() {
-        Point cursorPosition = MouseInfo.getPointerInfo().getLocation();
-        int[] currentPosition = new int[2];
-        currentPosition[0] = cursorPosition.x;
-        currentPosition[1] = cursorPosition.y;
+        lastCursorPosition[0] = cursorPosition[0];
+        lastCursorPosition[1] = cursorPosition[1];
+        Point pointerPosition = MouseInfo.getPointerInfo().getLocation();
+        cursorPosition[0] = pointerPosition.x;
+        cursorPosition[1] = pointerPosition.y;
 
-        return currentPosition;
+        return cursorPosition;
+    }
+
+    public int[] getLastCursorPosition() {
+        return lastCursorPosition;
+    }
+
+    public boolean isPressed() {
+        return isPressed.get();
+    }
+
+    public boolean isOnScreen() {
+        return isOnScreen.get();
     }
 
     /**
@@ -69,6 +86,8 @@ public class MouseHandler implements MouseListener {
      */
     @Override
     public void mousePressed(MouseEvent e) {
+        lastCursorPosition[0] = cursorPosition[0];
+        lastCursorPosition[1] = cursorPosition[0];
         isPressed.set(true);
     }
 
