@@ -173,4 +173,16 @@ public class ImageStorage {
         }
         return imagesList.get(imageIndex);
     }
+
+    public String getImageName(int index) {
+        if (index < 0 || index >= imagesNameList.size()) {
+            printError("Image index is out of range.");
+            return null;
+        }
+        return imagesNameList.get(index);
+    }
+
+    public int getStorageSize() {
+        return imagesList.size();
+    }
 }
