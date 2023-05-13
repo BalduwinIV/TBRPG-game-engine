@@ -1,24 +1,71 @@
 package engine.panels;
 
+import engine.utils.ButtonHandler;
 import engine.utils.Logger;
 import game.objects.BaseObject;
+import tilemap_editor.Tile;
+import tilemap_editor.TileMap;
 
 import javax.swing.*;
-import java.util.ArrayList;
+import java.awt.*;
 
 /**
  * Objects panel class that is used for putting objects to the game field.
  */
 public class ObjectsPanel extends JPanel {
     private Logger logger;
-    private ArrayList<BaseObject> objectsList;
+    private final TileMap tileMap;
+    private final JTabbedPane objectsTabbedPane;
+    private final JScrollPane tileMapScrollPane;
+    private final JPanel tileMapPanel;
+    private final JScrollPane charactersScrollPane;
+    private final JPanel charactersPanel;
+
+    public ObjectsPanel(TileMap tileMap) {
+        this.tileMap = tileMap;
+        objectsTabbedPane = new JTabbedPane();
+        tileMapPanel = new JPanel();
+        tileMapScrollPane = new JScrollPane(tileMapPanel);
+        charactersPanel = new JPanel();
+        charactersScrollPane = new JScrollPane(charactersPanel);
+
+        tileMapPanel.setBackground(Color.GRAY);
+        charactersPanel.setBackground(Color.DARK_GRAY);
+
+        objectsTabbedPane.add("tiles", tileMapScrollPane);
+        objectsTabbedPane.add("characters", charactersScrollPane);
+
+        tileMapPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+
+        for (int tileI = 0; tileI < tileMap.getTilesCount(); tileI++) {
+            Tile tile = tileMap.getTile(tileI);
+            ImageIcon tileButtonIcon = new ImageIcon(tile.getSprites().getImage().getScaledInstance(48, 48, Image.SCALE_FAST));
+            JButton tileButton = new JButton(tileButtonIcon);
+            tileButton.setPreferredSize(new Dimension(48, 48));
+            tileMapPanel.add(tileButton);
+        }
+        JButton newObjectButton = new JButton();
+        newObjectButton.setRolloverEnabled(false);
+        newObjectButton.addMouseListener(new ButtonHandler(newObjectButton, 48, 48,
+                "src/main/resources/img/gui_icons/new_object_button.png",
+                "src/main/resources/img/gui_icons/new_object_button_hover.png",
+                "src/main/resources/img/gui_icons/new_object_button_pressed.png"));
+        newObjectButton.setPreferredSize(new Dimension(48, 48));
+        tileMapPanel.add(newObjectButton);
+
+        this.setLayout(new GridLayout(1, 1));
+        this.add(objectsTabbedPane);
+    }
 
     public ObjectsPanel() {
-        objectsList = new ArrayList<>();
-        /*
-          Initializing ObjectsPanel object.
-         */
+        this(new TileMap());
     }
+
+
+    public ObjectsPanel(String tileMapFileLocation) {
+        this(new TileMap(tileMapFileLocation));
+    }
+
 
     /**
      * Connects logger to current object.
@@ -33,7 +80,6 @@ public class ObjectsPanel extends JPanel {
      * @param   object  Object, to add to objects panel.
      */
     public void addObject(BaseObject object) {
-        objectsList.add(object);
         /*
         *  Code for GUI implementation.
         *  */
