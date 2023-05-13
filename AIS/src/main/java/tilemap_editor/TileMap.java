@@ -13,16 +13,19 @@ import java.util.Objects;
 public class TileMap {
     private Logger logger;
     private JSONArray tileMap;
+    private final ArrayList<Tile> tiles;
     private final String JSONFilePath;
 
     public TileMap() {
         this.tileMap = new JSONArray();
+        this.tiles = new ArrayList<>();
         this.JSONFilePath = "src/main/resources/tileMap.json";
         loadTileMap(this.JSONFilePath);
     }
 
     public TileMap(String tileMapFilePath) {
         this.tileMap = new JSONArray();
+        this.tiles = new ArrayList<>();
         this.JSONFilePath = tileMapFilePath;
         loadTileMap(tileMapFilePath);
     }
@@ -41,6 +44,18 @@ public class TileMap {
                 String jsonLine = tileMapFileReader.readLine();
                 if (Objects.nonNull(jsonLine)) {
                     tileMap = new JSONArray(jsonLine);
+
+                    for (int tileI = 0; tileI < tileMap.length(); tileI++) {
+                        ImageStorage sprites = new ImageStorage();
+                        JSONArray sprites_list = tileMap.getJSONObject(tileI).getJSONArray("sprites");
+                        for (int spriteI = 0; spriteI < sprites_list.length(); spriteI++) {
+                            sprites.addImageByName(sprites_list.getString(spriteI));
+                        }
+                        tiles.add(new Tile(tileMap.getJSONObject(tileI).getString("name"),
+                                tileMap.getJSONObject(tileI).getInt("width"),
+                                tileMap.getJSONObject(tileI).getInt("height"),
+                                sprites));
+                    }
                 } else {
                     tileMap = new JSONArray();
                 }
@@ -85,6 +100,9 @@ public class TileMap {
         }
         tileObject.put("sprites", tileSprites);
         tileMap.put(tileObject);
+
+        tiles.add(new Tile(name, sprites.getImage().getWidth(), sprites.getImage().getHeight(), sprites));
+
         return true;
     }
 
@@ -105,5 +123,21 @@ public class TileMap {
                 e.printStackTrace();
             }
         }
+    }
+
+    public ArrayList<Tile> getTiles() {
+        return tiles;
+    }
+
+    public Tile getTile(int index) {
+        if (index < 0 || index >= tiles.size()) {
+            logger.error(this, "Tile index (" + index + ") out of range.\n");
+            return null;
+        }
+        return tiles.get(index);
+    }
+
+    public int getTilesCount() {
+        return tiles.size();
     }
 }
