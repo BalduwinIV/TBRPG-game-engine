@@ -1,6 +1,7 @@
 package engine.utils;
 
 import engine.panels.LoggerPanel;
+import engine.windows.MainWindow;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -58,7 +59,7 @@ public class Logger implements Runnable {
     /**
      * Connects current logger with LoggerPanel, so it will show loggers file content in separate tab.
      * @param   loggerPanel   LoggerPanel from MainWindow that shows the loggers file content.
-     * @see     engine.panels.MainWindow
+     * @see     MainWindow
      */
     public void connectLoggerPanel(LoggerPanel loggerPanel) {
         this.loggerPanel = loggerPanel;
@@ -105,7 +106,17 @@ public class Logger implements Runnable {
      */
     public void info(Object obj, String message) {
         String dateTime = LocalDateTime.now().toString();
-        String infoMessage = "[INFO]\t\t" + dateTime + " <" + obj.getClass().getSimpleName() + ">: " + message + "\n";
+        String infoMessage = "[INFO]\t" + dateTime + " <" + obj.getClass().getSimpleName() + ">: " + message + "\n";
+        loggerBuffer.add(infoMessage);
+
+        if (Objects.nonNull(this.loggerPanel)) {
+            this.loggerPanel.addInfoMessage(this, infoMessage);
+        }
+    }
+
+    public void info(String message) {
+        String dateTime = LocalDateTime.now().toString();
+        String infoMessage = "[INFO]\t" + dateTime + ": " + message + "\n";
         loggerBuffer.add(infoMessage);
 
         if (Objects.nonNull(this.loggerPanel)) {
@@ -128,6 +139,16 @@ public class Logger implements Runnable {
         }
     }
 
+    public void warning(String message) {
+        String dateTime = LocalDateTime.now().toString();
+        String warningMessage = "[WARNING]\t" + dateTime + ": " + message + "\n";
+        loggerBuffer.add(warningMessage);
+
+        if (Objects.nonNull(this.loggerPanel)) {
+            this.loggerPanel.addWarningMassage(this, warningMessage);
+        }
+    }
+
     /**
      * Prints error message to logger file.
      * @param   obj     An object that sends the message.
@@ -135,7 +156,17 @@ public class Logger implements Runnable {
      */
     public void error(Object obj, String message) {
         String dateTime = LocalDateTime.now().toString();
-        String errorMessage = "[ERROR]\t\t" + dateTime + " <" + obj.getClass().getSimpleName() + ">: " + message + "\n";
+        String errorMessage = "[ERROR]\t" + dateTime + " <" + obj.getClass().getSimpleName() + ">: " + message + "\n";
+        loggerBuffer.add(errorMessage);
+
+        if (Objects.nonNull(this.loggerPanel)) {
+            this.loggerPanel.addErrorMessage(this, errorMessage);
+        }
+    }
+
+    public void error(String message) {
+        String dateTime = LocalDateTime.now().toString();
+        String errorMessage = "[ERROR]\t" + dateTime + ": " + message + "\n";
         loggerBuffer.add(errorMessage);
 
         if (Objects.nonNull(this.loggerPanel)) {

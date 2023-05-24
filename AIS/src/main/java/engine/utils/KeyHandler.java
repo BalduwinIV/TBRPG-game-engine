@@ -2,21 +2,21 @@ package engine.utils;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Class for getting and analyzing keyboard input events.
  */
 public class KeyHandler implements KeyListener {
-    private List<Integer> pressedKeys;
-    private List<Character> typedKeys;
-    private AtomicBoolean enableTyping;
+    private int pressedKey;
+    private final AtomicBoolean isPressed;
+    private int typedKey;
+    private final AtomicBoolean enableTyping;
 
     public KeyHandler () {
-        pressedKeys = new ArrayList<Integer>(5);
-        typedKeys = new ArrayList<Character>();
+        pressedKey = 0;
+        isPressed = new AtomicBoolean(false);
+        typedKey = 0;
         enableTyping = new AtomicBoolean(false);
     }
 
@@ -36,15 +36,16 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
         if (enableTyping.get()) {
-            typedKeys.add(e.getKeyChar());
+            typedKey = e.getKeyCode();
         }
     }
 
-    /**
-     * Clears typed characters buffer.
-     */
-    public void freeTypedKeysList() {
-        typedKeys.clear();
+    public int getTypedKey() {
+        return typedKey;
+    }
+
+    public boolean isPressed() {
+        return isPressed.get();
     }
 
     /**
@@ -53,15 +54,14 @@ public class KeyHandler implements KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
-        pressedKeys.add(e.getKeyCode());
+        if (!isPressed.get()) {
+            isPressed.set(true);
+        }
+        pressedKey = e.getKeyCode();
     }
 
-    /**
-     * Returns list of keys, that is being pressed.
-     * @return  Currently pressed keys list.
-     */
-    public List<Integer> getPressedKeys() {
-        return pressedKeys;
+    public int getPressedKey() {
+        return pressedKey;
     }
 
     /**
@@ -70,9 +70,6 @@ public class KeyHandler implements KeyListener {
      */
     @Override
     public void keyReleased(KeyEvent e) {
-        int remove_index = pressedKeys.indexOf(e.getKeyCode());
-        if (remove_index >= 0) {
-            pressedKeys.remove((remove_index));
-        }
+        isPressed.set(false);
     }
 }

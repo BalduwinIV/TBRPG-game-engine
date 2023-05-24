@@ -1,0 +1,59 @@
+[INFO]	2023-05-24T23:09:37.571047610 <Logger>: New logger thread has been created.
+[INFO]	2023-05-24T23:09:37.596258846 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:11:37.986878792 <Logger>: New logger thread has been created.
+[INFO]	2023-05-24T23:11:38.006810929 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:12:30.739446427 <Logger>: New logger thread has been created.
+[INFO]	2023-05-24T23:12:30.760202872 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:13:29.771126743 <Logger>: New logger thread has been created.
+[INFO]	2023-05-24T23:13:29.793019360 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:13:29.817764829 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:13:55.702058785 <Logger>: New logger thread has been created.
+[INFO]	2023-05-24T23:13:55.726156833 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:13:55.746065527 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:14:40.342079717 <Logger>: New logger thread has been created.
+[INFO]	2023-05-24T23:14:40.371941115 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:14:40.402653970 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:17:25.692100639 <Logger>: New logger thread has been created.
+[INFO]	2023-05-24T23:17:25.718185644 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:17:25.741021808 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:18:04.398246766 <Logger>: New logger thread has been created.
+[INFO]	2023-05-24T23:18:04.418557280 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:18:04.436792192 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:18:17.504975792 <Logger>: New logger thread has been created.
+[INFO]	2023-05-24T23:18:17.530795699 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:18:17.550765185 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:18:41.602860623 <Logger>: New logger thread has been created.
+[INFO]	2023-05-24T23:18:41.624374112 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:18:41.643955924 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:19:57.728776855 <Logger>: New logger thread has been created.
+[INFO]	2023-05-24T23:19:57.749837660 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:19:57.769288331 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:21:11.898840594 <Logger>: New logger thread has been created.
+[INFO]	2023-05-24T23:21:11.921678451 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:21:11.942275753 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:21:11.946754890 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:21:11.951166422 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:22:00.343914276 <Logger>: New logger thread has been created.
+[INFO]	2023-05-24T23:22:00.367068896 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:22:00.386556335 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:22:00.390289248 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:22:00.393628586 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:22:33.959985020 <Logger>: New logger thread has been created.
+[WARNING]	2023-05-24T23:22:33.984134632 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:22:34.007164683 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:22:34.011997702 <TestLogger>: Test message.
+[WARNING]	2023-05-24T23:22:34.016505521 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:23:20.103631430 <Logger>: New logger thread has been created.
+[ERROR]	2023-05-24T23:23:20.125483683 <TestLogger>: Test message.
+[WARNING]	2023-05-24T23:23:20.149264355 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:23:20.154146735 <TestLogger>: Test message.
+[WARNING]	2023-05-24T23:23:20.157742605 <TestLogger>: Test message.
+[INFO]	2023-05-24T23:23:20.161445192 <TestLogger>: Test message.
+[WARNING]	2023-05-24T23:23:20.164843158 <TestLogger>: Test message.
+[INFO]	2023-05-25T00:03:32.670552461 <Logger>: New logger thread has been created.
+[ERROR]	2023-05-25T00:03:32.696290658 <TestLogger>: Test message.
+[WARNING]	2023-05-25T00:03:32.719151758 <TestLogger>: Test message.
+[INFO]	2023-05-25T00:03:32.724232262 <TestLogger>: Test message.
+[WARNING]	2023-05-25T00:03:32.728424099 <TestLogger>: Test message.
+[INFO]	2023-05-25T00:03:32.732001866 <TestLogger>: Test message.
+[WARNING]	2023-05-25T00:03:32.735080815 <TestLogger>: Test message.

@@ -58,6 +58,13 @@ public class ImageStorage {
         }
     }
 
+    public ImageStorage(BufferedImage image) {
+        this.imagesNameList = new ArrayList<>(1);
+        this.imagesList = new ArrayList<>(1);
+        this.imagesNameList.add("bufferedImage");
+        this.imagesList.add(image);
+    }
+
     /**
      * Connects logger to current object.
      * @param   logger  Logger, that will be used for logging current class actions.

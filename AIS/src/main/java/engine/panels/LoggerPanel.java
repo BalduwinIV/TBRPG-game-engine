@@ -118,12 +118,7 @@ public class LoggerPanel extends JPanel {
      */
     public void addInfoMessage(Logger logger, String message) {
         try {
-            for (int i = 0; i < loggers.size(); i++) {
-                if (loggers.get(i) == logger) {
-                    documents.get(i).insertString(documents.get(i).getLength(), message, infoMessageStyle);
-                    textAreas.get(i).setCaretPosition(documents.get(i).getLength());
-                }
-            }
+            insertTextToProperLogger(logger, message, infoMessageStyle);
         } catch (BadLocationException e) {
             logger.error(this, "An error occurred on writing info message.");
             e.printStackTrace();
@@ -137,15 +132,25 @@ public class LoggerPanel extends JPanel {
      */
     public void addWarningMassage(Logger logger, String message) {
         try {
-            for (int i = 0; i < loggers.size(); i++) {
-                if (loggers.get(i) == logger) {
-                    documents.get(i).insertString(documents.get(i).getLength(), message, warningMessageStyle);
-                    textAreas.get(i).setCaretPosition(documents.get(i).getLength());
-                }
-            }
+            insertTextToProperLogger(logger, message, warningMessageStyle);
         } catch (BadLocationException e) {
             logger.error(this, "An error occurred on writing warning message.");
             e.printStackTrace();
+        }
+    }
+
+    /**
+     *  Inserts text to correct logger from logger panel.
+     * @param logger Logger, which text is going to be inserted to logger panel.
+     * @param message Loggers message.
+     * @param messageStyle Message style: info/warning/error.
+     */
+    private void insertTextToProperLogger(Logger logger, String message, SimpleAttributeSet messageStyle) throws BadLocationException {
+        for (int i = 0; i < loggers.size(); i++) {
+            if (loggers.get(i) == logger) {
+                documents.get(i).insertString(documents.get(i).getLength(), message, messageStyle);
+                textAreas.get(i).setCaretPosition(documents.get(i).getLength());
+            }
         }
     }
 }

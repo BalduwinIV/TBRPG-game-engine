@@ -18,6 +18,10 @@ public class ButtonHandler implements MouseListener {
     public ButtonHandler(JButton button, int width, int height, String defaultIcon, String hoverIcon, String pressedIcon) {
         this.button = button;
         isActive = false;
+
+        button.setRolloverEnabled(false);
+        button.setPreferredSize(new Dimension(width, height));
+
         this.defaultIcon = new ImageIcon(new ImageIcon(defaultIcon).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
         this.hoverIcon = new ImageIcon(new ImageIcon(hoverIcon).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
         this.pressedIcon = new ImageIcon(new ImageIcon(pressedIcon).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
@@ -31,6 +35,9 @@ public class ButtonHandler implements MouseListener {
     public ButtonHandler(JButton button, int width, int height, String defaultIcon, String hoverIcon, String pressedIcon, String activeDefaultIcon, String activeHoverIcon, String activePressedIcon) {
         this.button = button;
         isActive = false;
+
+        button.setRolloverEnabled(false);
+        button.setPreferredSize(new Dimension(width, height));
 
         this.defaultIcon = new ImageIcon(new ImageIcon(defaultIcon).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
         this.hoverIcon = new ImageIcon(new ImageIcon(hoverIcon).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
