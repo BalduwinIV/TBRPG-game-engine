@@ -23,7 +23,7 @@ public class ModelControlComponents {
     private static KnownCharactersManager knownCharactersManager;
     private static ItemManager itemManager;
     private static KeyHandler keyHandler;
-    private static GameStats gameStats;
+    private GameStats gameStats;
 
     public ModelControlComponents() {}
 
