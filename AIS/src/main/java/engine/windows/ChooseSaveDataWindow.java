@@ -12,6 +12,9 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ *  Save data chooser window class.
+ */
 public class ChooseSaveDataWindow extends JFrame {
     private final GUIComponents guiComponents;
     private final ModelControlComponents modelControlComponents;
@@ -47,6 +50,9 @@ public class ChooseSaveDataWindow extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     *  Show save data chooser window.
+     */
     public void start() {
         getContentPane().setBackground(new Color(0x808080));
         getContentPane().setLayout(new BorderLayout(5, 5));
@@ -68,6 +74,9 @@ public class ChooseSaveDataWindow extends JFrame {
         setVisible(true);
     }
 
+    /**
+     *  Updates save data chooser window.
+     */
     public void updateSaveDataChooser() {
         saveDataChooser.removeAll();
         JPanel createNewSaveDataPanel = new JPanel();
@@ -90,6 +99,9 @@ public class ChooseSaveDataWindow extends JFrame {
         revalidate();
     }
 
+    /**
+     *  Adds save data button to the window.
+     */
     public void addSaveDataButton() {
         JPanel saveDataPanel = new JPanel();
         saveDataPanel.setLayout(new GridLayout(1, 1));

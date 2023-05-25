@@ -13,6 +13,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ *  Items manager class.
+ */
 public class ItemManager {
     ModelControlComponents modelControlComponents;
     Logger logger;
@@ -32,6 +35,10 @@ public class ItemManager {
         loadItemsFromFile(itemsFileName);
     }
 
+    /**
+     *  Load known items from JSON file.
+     * @param itemsFileName JSON file name.
+     */
     public void loadItemsFromFile(String itemsFileName) {
         File itemsJSONFile = new File(itemsFileName);
         if (!itemsJSONFile.exists()) {
@@ -74,6 +81,11 @@ public class ItemManager {
         }
     }
 
+    /**
+     *  Adds item to known items.
+     * @param item Item to add.
+     * @return True if item has been added. False otherwise.
+     */
     public boolean addItem(Item item) {
         for (Item knownItem : items) {
             if (knownItem.getName().equals(item.getName())) {
@@ -94,6 +106,11 @@ public class ItemManager {
         return items.size();
     }
 
+    /**
+     *  Checks if item does already exist among known items.
+     * @param name Items name.
+     * @return True if item does already exist.
+     */
     public boolean itemDoesExist(String name) {
         for (Item item : items) {
             if (item.getName().equals(name)) {
@@ -104,6 +121,11 @@ public class ItemManager {
         return false;
     }
 
+    /**
+     *  Returns item of given index or null.
+     * @param index Items index.
+     * @return Item or null.
+     */
     public Item getItem(int index) {
         if (index < 0 || index >= items.size()) {
             logger.error(this, "Item index out of range: " + index + ".");
@@ -113,6 +135,11 @@ public class ItemManager {
         return items.get(index);
     }
 
+    /**
+     *  Returns item of given name or null.
+     * @param name Items name.
+     * @return Item or null.
+     */
     public Item getItem(String name) {
         for (Item item : items) {
             if (item.getName().equals(name)) {
@@ -134,6 +161,12 @@ public class ItemManager {
         return itemTypesArray;
     }
 
+    /**
+     *  Renames items.
+     * @param previousName Items name.
+     * @param newName New items name.
+     * @return True if item has been renamed. False otherwise.
+     */
     public boolean renameItem(String previousName, String newName) {
         if (itemDoesExist(newName)) {
             logger.error(this, "Item with name \"" + newName + "\" does already exist.");
@@ -152,6 +185,11 @@ public class ItemManager {
         return false;
     }
 
+    /**
+     *  Removes item.
+     * @param name Items name.
+     * @return True if item has been removed.
+     */
     public boolean removeItem(String name) {
         for (int itemI = 0; itemI < items.size(); itemI++) {
             if (items.get(itemI).getName().equals(name)) {
@@ -165,6 +203,10 @@ public class ItemManager {
         return false;
     }
 
+    /**
+     *  Saves all changes to JSON file.
+     * @return True if changes has been saved.
+     */
     public boolean saveJSONFile() {
         itemsJSONArray = new JSONArray();
         for (Item item: items) {

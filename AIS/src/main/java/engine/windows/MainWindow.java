@@ -27,7 +27,6 @@ public class MainWindow extends JFrame {
         guiComponents.setMainWindow(this);
         this.modelControlComponents = modelControlComponents;
         modelControlComponents.setProgramState(ProgramState.ENGINE);
-        setLogger(modelControlComponents.getEngineLogger());
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -46,13 +45,6 @@ public class MainWindow extends JFrame {
         setResizable(true);
         setTitle("AIS Engine");
         setPreferredSize(new Dimension(1280, 720));
-    }
-
-    /**
-     * Connects logger to current object.
-     * @param   logger  Logger, that will be used for logging current class actions.
-     */
-    public void setLogger(Logger logger) {
     }
 
     /**

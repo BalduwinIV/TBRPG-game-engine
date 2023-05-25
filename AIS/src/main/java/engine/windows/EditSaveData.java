@@ -15,6 +15,9 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ *  Save data editor window class.
+ */
 public class EditSaveData extends JFrame {
     private final Logger logger;
     private final GUIComponents guiComponents;
@@ -49,6 +52,9 @@ public class EditSaveData extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     *  Show save data editor.
+     */
     public void start() {
         setLayout(new BorderLayout(5, 5));
         setBackground(new Color(0xcccccc));

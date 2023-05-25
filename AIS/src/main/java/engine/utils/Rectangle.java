@@ -41,9 +41,6 @@ public class Rectangle {
      * @return  true if there is a collision, false otherwise.
      */
     public boolean checkCollision(Rectangle other) {
-        /**
-         * Checking collision;
-         */
         return false;
     }
 

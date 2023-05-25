@@ -10,6 +10,9 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+/**
+ *  Weapon mouse listener for showing popup menu.
+ */
 public class WeaponMouseListener implements MouseListener {
     private final GUIComponents guiComponents;
     private final ModelControlComponents modelControlComponents;
@@ -25,7 +28,12 @@ public class WeaponMouseListener implements MouseListener {
         this.isInCharactersInventory = isInCharactersInventory;
     }
 
-    private void showCharacterPopupMenu(int xPos, int yPos) {
+    /**
+     *  Shows weapons popup menu.
+     * @param xPos  Popup menu position x.
+     * @param yPos  Popup menu position y.
+     */
+    private void showWeaponPopupMenu(int xPos, int yPos) {
         JPopupMenu characterPopupMenu = new JPopupMenu("Manage weapon");
         JMenuItem renameOption = new JMenuItem("Rename");
         JMenuItem changeOption = new JMenuItem("Change");
@@ -36,7 +44,7 @@ public class WeaponMouseListener implements MouseListener {
 
         renameOption.addActionListener(new ItemRenameButtonController(guiComponents, modelControlComponents, weaponButton, item.getName()));
         changeOption.addActionListener(e -> new ChangeWeaponCharacteristics(guiComponents, modelControlComponents, (Weapon) modelControlComponents.getItemManager().getItem(item.getName())));
-        removeOption.addActionListener(new ItemRemoveButtonController(guiComponents, modelControlComponents, weaponButton, item.getName(), isInCharactersInventory));
+        removeOption.addActionListener(new ItemRemoveButtonController(guiComponents, weaponButton, item.getName(), isInCharactersInventory));
 
         characterPopupMenu.show(weaponButton.getParent(), xPos, yPos);
     }
@@ -44,7 +52,7 @@ public class WeaponMouseListener implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (SwingUtilities.isRightMouseButton(e)) {
-            showCharacterPopupMenu(weaponButton.getLocation().x + weaponButton.getWidth(), weaponButton.getLocation().y + weaponButton.getHeight());
+            showWeaponPopupMenu(weaponButton.getLocation().x + weaponButton.getWidth(), weaponButton.getLocation().y + weaponButton.getHeight());
         }
     }
 

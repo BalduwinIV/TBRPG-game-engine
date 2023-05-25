@@ -7,6 +7,9 @@ import engine.utils.*;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ *  Main menu window class.
+ */
 public class MainMenu extends JFrame {
     private final Logger logger;
     public MainMenu(Logger logger) {
@@ -20,6 +23,9 @@ public class MainMenu extends JFrame {
         setPreferredSize(getSize());
     }
 
+    /**
+     *  Show main menu window.
+     */
     public void start() {
         logger.info(this, "Creating AIS menu window.");
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));

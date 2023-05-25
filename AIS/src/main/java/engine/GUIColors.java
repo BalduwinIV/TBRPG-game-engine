@@ -1,5 +1,8 @@
 package engine;
 
+/**
+ *  Defines program colors.
+ */
 public class GUIColors {
     public enum Colors {
         BACKGROUND,
@@ -9,6 +12,11 @@ public class GUIColors {
         INVENTORY_KNOWN_ITEMS
     }
 
+    /**
+     *  Return color.
+     * @param color Color.
+     * @return Color as value.
+     */
     public static int color(Colors color) {
         switch (color) {
             case BACKGROUND -> {

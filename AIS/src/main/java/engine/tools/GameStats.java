@@ -2,6 +2,9 @@ package engine.tools;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ *  Class, that controls the game progress.
+ */
 public class GameStats {
     private int roundNumber;
     private int allyTotalCount;

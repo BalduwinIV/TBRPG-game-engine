@@ -3,6 +3,9 @@ package engine.tools.itemsManager.HealManager;
 import engine.tools.itemsManager.Item;
 import engine.utils.ImageStorage;
 
+/**
+ *  Heal item class.
+ */
 public class Heal extends Item {
     private int healAmount;
     private int healRange;

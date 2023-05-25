@@ -2,6 +2,9 @@ package engine.tools.itemsManager;
 
 import java.util.ArrayList;
 
+/**
+ *  Inventory class.
+ */
 public class Inventory {
     private final ArrayList<InventoryItem> items;
 

@@ -14,8 +14,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ *  Utils for working with JSON files.
+ */
 public class JSONUtils {
     private JSONUtils() {}
+
+    /**
+     *  Renames JSON object.
+     * @param jsonArray JSON array that contains object.
+     * @param logger Logger to print messages.
+     * @param objectType Object type for logger messages.
+     * @param previousName Objects name.
+     * @param newName New objects name.
+     * @return True if object has been renamed.
+     */
     public static boolean renameObject(JSONArray jsonArray, Logger logger, String objectType, String previousName, String newName) {
         for (int objectI = 0; objectI < jsonArray.length(); objectI++) {
             if (jsonArray.getJSONObject(objectI).getString("name").equals(newName)) {
@@ -35,6 +48,14 @@ public class JSONUtils {
         return false;
     }
 
+    /**
+     *  Removes JSON objects from JSON array.
+     * @param jsonArray JSON array that contains object.
+     * @param logger Logger to print messages.
+     * @param objectType Objects type for logger messages.
+     * @param name Objects name.
+     * @return True if object has been removed.
+     */
     public static boolean removeObject(JSONArray jsonArray, Logger logger, String objectType, String name) {
         for (int objectI = 0; objectI < jsonArray.length(); objectI++) {
             if (name.equals(jsonArray.getJSONObject(objectI).getString("name"))) {
@@ -47,6 +68,13 @@ public class JSONUtils {
         return false;
     }
 
+    /**
+     *  Save JSON array to JSON file.
+     * @param JSONFilePath JSON file name.
+     * @param jsonArray JSON array.
+     * @param logger Logger to print messages.
+     * @return True if JSON file has been saved. False otherwise.
+     */
     public static boolean saveJSONFile(String JSONFilePath, JSONArray jsonArray, Logger logger) {
         File JSONFile = new File(JSONFilePath);
         if (!JSONFile.exists()) {
@@ -69,6 +97,13 @@ public class JSONUtils {
         }
     }
 
+    /**
+     *  Created JSON files copy.
+     * @param JSONFilePath JSON file name.
+     * @param jsonArray JSON array.
+     * @param logger Logger message.
+     * @return True if JSON files copy has been saved. False otherwise.
+     */
     public static boolean saveJSONFileCopy(String JSONFilePath, JSONArray jsonArray, Logger logger) {
         int dotIndex = JSONFilePath.lastIndexOf('.');
         String JSONFilePathCopy = JSONFilePath.substring(0, dotIndex) + "_copy.json";
@@ -76,6 +111,11 @@ public class JSONUtils {
         return saveJSONFile(JSONFilePathCopy, jsonArray, logger);
     }
 
+    /**
+     *  Creates empty JSON file.
+     * @param fileName JSON file name.
+     * @param logger Logger to print messages.
+     */
     public static void createBasicJSONFile(String fileName, Logger logger) {
         File JSONFile = new File(fileName);
         if (JSONFile.exists()) {

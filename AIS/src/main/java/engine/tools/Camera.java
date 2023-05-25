@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Camera class that defines what to render on game map.
+ * Camera class that defines what to render on game panel.
  */
 public class Camera {
     private Image[][] loadedSpritesList;
@@ -26,7 +26,7 @@ public class Camera {
     private int[] selectedSpritePosition;
     private int[] previousSelectedSpritePosition;
     private GameLevels gameLevels;
-    private Rectangle viewArea;
+    private final Rectangle viewArea;
     private int[] panelSize;
     private final double[] cameraRatio;
     private double cameraScale;
@@ -69,6 +69,9 @@ public class Camera {
         this.gameLevels = gameLevels;
     }
 
+    /**
+     *  Load current level on camera.
+     */
     public void loadLevel() {
         loadedSpritesList = new Image[gameLevels.getCurrentLevelSize()[1]][gameLevels.getCurrentLevelSize()[0]];
         spritesColorFilterList = new Image[gameLevels.getCurrentLevelSize()[1]][gameLevels.getCurrentLevelSize()[0]];
@@ -79,6 +82,9 @@ public class Camera {
         updateSprites();
     }
 
+    /**
+     *  Unload the level.
+     */
     public void unloadLevel() {
         levelIsLoaded.set(false);
     }
@@ -89,14 +95,6 @@ public class Camera {
         this.panelSize[1] = height;
         viewArea.setSize(width, height);
         updateSprites();
-    }
-
-    /**
-     * Sets camera viewing area.
-     * @param   viewArea    Rectangle object, that defines viewing area.
-     */
-    public void setViewArea(Rectangle viewArea) {
-        this.viewArea = viewArea;
     }
 
     /**
@@ -139,6 +137,11 @@ public class Camera {
         cursorPosition = position;
     }
 
+    /**
+     *  Select tile.
+     * @param position Cursor position.
+     * @return True if tile has been selected. False otherwise.
+     */
     public boolean selectSprite(int[] position) {
         int[] tilePosition = new int[2];
         tilePosition[0] = (int)((position[0] + (viewArea.getPositionX() * (panelSize[0] / viewArea.getWidth()))) / currentSpriteSize[0]);
@@ -179,6 +182,9 @@ public class Camera {
         spriteIsSelected.set(false);
     }
 
+    /**
+     *  Synchronizes view with game levels class.
+     */
     public void updateSprites() {
         if (Objects.nonNull(gameLevels) && Objects.nonNull(gameLevels.getCurrentLevelTiles())) {
             for (int y = 0; y < gameLevels.getCurrentLevelSize()[1]; y++) {
@@ -278,6 +284,10 @@ public class Camera {
         return cameraRatio;
     }
 
+    /**
+     *  Draws on the game panel.
+     * @param graphics Game panels graphics.
+     */
     public void draw(Graphics graphics) {
         if (Objects.nonNull(gameLevels) && Objects.nonNull(gameLevels.getCurrentLevelName()) && levelIsLoaded.get()) {
             int tileX = 0;

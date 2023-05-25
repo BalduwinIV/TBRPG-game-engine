@@ -14,6 +14,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ *  A new tile adding window.
+ */
 public class AddNewTileWindow extends JDialog implements ActionListener {
     private final GUIComponents guiComponents;
     private final ModelControlComponents modelControlComponents;

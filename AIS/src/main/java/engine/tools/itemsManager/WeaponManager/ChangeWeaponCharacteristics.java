@@ -8,6 +8,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ *  Window for changing weapon stats.
+ */
 public class ChangeWeaponCharacteristics extends JDialog implements ActionListener {
     private final ModelControlComponents modelControlComponents;
     private final Weapon weapon;

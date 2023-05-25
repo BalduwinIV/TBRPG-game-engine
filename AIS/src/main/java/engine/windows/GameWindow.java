@@ -13,6 +13,9 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ *  Game window class.
+ */
 public class GameWindow extends JFrame {
     GUIComponents guiComponents;
     ModelControlComponents modelControlComponents;
@@ -46,6 +49,9 @@ public class GameWindow extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     *  Show game window.
+     */
     public void start() {
         getContentPane().setBackground(new Color(0x808080));
         getContentPane().setLayout(new BorderLayout(0, 0));

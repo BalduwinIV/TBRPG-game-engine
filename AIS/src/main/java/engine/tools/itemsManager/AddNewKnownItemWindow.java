@@ -18,6 +18,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ *  Adding new known item window class.
+ */
 public class AddNewKnownItemWindow extends JDialog implements ActionListener {
     private final JTextField nameField;
     private final GUIComponents guiComponents;

@@ -4,6 +4,9 @@ import engine.panels.*;
 
 import javax.swing.*;
 
+/**
+ *  Class that contains windows and panels to give easier access to it.
+ */
 public class GUIComponents {
     private JFrame mainWindow;
     private ToolBar toolBar;

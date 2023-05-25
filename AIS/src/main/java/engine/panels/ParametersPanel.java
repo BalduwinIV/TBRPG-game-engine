@@ -138,7 +138,7 @@ public class ParametersPanel extends JPanel {
                 );
 
                 if (modelControlComponents.getProgramState().equals(ProgramState.SAVE_DATA_EDITOR)) {
-                    if (modelControlComponents.getSaveDataManager().changeCharacterFromCurrentSaveData(character)) {
+                    if (modelControlComponents.getSaveDataManager().updateCharacterFromCurrentSaveData(character)) {
                         modelControlComponents.getSaveDataManager().saveJSONFile();
                         logger.info(this, "Character changes has been successfully saved.");
                     } else {

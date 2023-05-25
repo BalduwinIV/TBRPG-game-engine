@@ -10,6 +10,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ *  Tile manager class.
+ */
 public class TileMap {
     private final Logger logger;
     private JSONArray tileMap;
@@ -28,6 +31,10 @@ public class TileMap {
         loadTileMap(tileMapFilePath);
     }
 
+    /**
+     *  Load all known tiles from the JSON file.
+     * @param tileMapFilePath JSON file name.
+     */
     public void loadTileMap(String tileMapFilePath) {
         File tileMapJSONFile = new File(tileMapFilePath);
         if (!tileMapJSONFile.exists()) {
@@ -60,6 +67,10 @@ public class TileMap {
         }
     }
 
+    /**
+     *  Creates a new empty JSON file.
+     * @param tileMapFilePath JSON file name.
+     */
     public void createTileMapFile(String tileMapFilePath) {
         File tileMapJSONFile = new File(tileMapFilePath);
         if (tileMapJSONFile.exists()) {
@@ -78,6 +89,12 @@ public class TileMap {
         }
     }
 
+    /**
+     *  Adds tile to the local array.
+     * @param name New tiles name.
+     * @param sprite New tiles sprite.
+     * @return True if tile has been added.
+     */
     public boolean addTile(String name, ImageStorage sprite) {
         for (int tileI = 0; tileI < tileMap.length(); tileI++) {
             if (name.equals(tileMap.getJSONObject(tileI).getString("name"))) {
@@ -99,6 +116,12 @@ public class TileMap {
         return true;
     }
 
+    /**
+     *  Renames tile.
+     * @param previousName Tiles name.
+     * @param newName New tiles name.
+     * @return True if tile has been renamed. False otherwise.
+     */
     public boolean renameTile(String previousName, String newName) {
         if (JSONUtils.renameObject(tileMap, logger, "Tile", previousName, newName)) {
             for (Tile tile : tiles) {
@@ -111,6 +134,11 @@ public class TileMap {
         return false;
     }
 
+    /**
+     *  Removes tile.
+     * @param name Tiles name.
+     * @return True if tile has been removed. False otherwise.
+     */
     public boolean removeTile(String name) {
         if (JSONUtils.removeObject(tileMap, logger, "Tile", name)) {
             for (int tileI = 0; tileI < tiles.size(); tileI++) {
@@ -123,6 +151,10 @@ public class TileMap {
         return false;
     }
 
+    /**
+     *  Saves all changes to JSON file.
+     * @return True if changes has been saved. False otherwise.
+     */
     public boolean saveJSONFile() {
         return JSONUtils.saveJSONFile(this.JSONFilePath, tileMap, logger);
     }
@@ -131,6 +163,11 @@ public class TileMap {
         return tiles;
     }
 
+    /**
+     *  Returns tile of given index.
+     * @param index Tiles index.
+     * @return Tile or null.
+     */
     public Tile getTileByIndex(int index) {
         if (index < 0 || index >= tiles.size()) {
             logger.error(this, "Tile index (" + index + ") out of range.\n");
@@ -139,6 +176,11 @@ public class TileMap {
         return tiles.get(index);
     }
 
+    /**
+     *  Returns tile of given name.
+     * @param name Tiles name.
+     * @return Tile of null.
+     */
     public Tile getTileByName(String name) {
         for (Tile tile : tiles) {
             if (tile.getName().equals(name)) {

@@ -1,5 +1,8 @@
 package engine.tools.itemsManager;
 
+/**
+ *  Inventory item class.
+ */
 public class InventoryItem {
     private final Item item;
     private int amount;

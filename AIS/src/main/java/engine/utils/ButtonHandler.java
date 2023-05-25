@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+/**
+ *  Buttons handler that defined buttons look.
+ */
 public class ButtonHandler implements MouseListener {
     private final JButton button;
     private boolean isActive;
@@ -49,6 +52,10 @@ public class ButtonHandler implements MouseListener {
         button.setIcon(this.defaultIcon);
     }
 
+    /**
+     *  Sets buttons state and updates its view.
+     * @param state Buttons new state.
+     */
     public void setState(String state) {
         switch (state) {
             case "default" -> {

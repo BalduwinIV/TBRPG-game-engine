@@ -181,6 +181,11 @@ public class ImageStorage {
         return imagesList.get(imageIndex);
     }
 
+    /**
+     *  Returns name of image of given index.
+     * @param index Image index.
+     * @return Image name.
+     */
     public String getImageName(int index) {
         if (index < 0 || index >= imagesNameList.size()) {
             printError("Image index is out of range.");

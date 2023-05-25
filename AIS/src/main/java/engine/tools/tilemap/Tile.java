@@ -2,6 +2,9 @@ package engine.tools.tilemap;
 
 import engine.utils.ImageStorage;
 
+/**
+ *  Tile class.
+ */
 public class Tile {
     private String name;
     private int width;

@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ *  Save data manager class.
+ */
 public class SaveDataManager {
     private final ModelControlComponents modelControlComponents;
     private final Logger logger;
@@ -38,6 +41,10 @@ public class SaveDataManager {
         loadSaveDataFromFile(saveDataFileName);
     }
 
+    /**
+     *  Loads information about save data from JSON file.
+     * @param saveDataFileName JSON file name.
+     */
     public void loadSaveDataFromFile(String saveDataFileName) {
         File saveDataJSONFile = new File(saveDataFileName);
         if (!saveDataJSONFile.exists()) {
@@ -74,6 +81,11 @@ public class SaveDataManager {
         }
     }
 
+    /**
+     *  Loads save data.
+     * @param saveDataIndex Save data index.
+     * @return True if save data has been loaded.
+     */
     public boolean loadSaveData(int saveDataIndex) {
         if (saveDataIndex < 0 || saveDataIndex >= saveData.length()) {
             logger.error(this, "Save data index out of range: " + saveDataIndex + ".");
@@ -100,12 +112,20 @@ public class SaveDataManager {
         return true;
     }
 
+    /**
+     *  Creates and adds a new save data.
+     */
     public void addSaveData() {
         JSONObject newSaveData = new JSONObject(saveData.getJSONObject(0).toString());
 
         saveData.put(newSaveData);
     }
 
+    /**
+     *  Checks if character is in current save data.
+     * @param name Characters name.
+     * @return True if character is in current save data. False otherwise.
+     */
     public boolean isCharacterInCurrentSaveData(String name) {
         for (Character character : characters) {
             if (character.getName().equals(name)) {
@@ -115,6 +135,11 @@ public class SaveDataManager {
         return false;
     }
 
+    /**
+     *  Adds character to current save data.
+     * @param character Character to add.
+     * @return True if character has been added. False otherwise.
+     */
     public boolean addCharacterToCurrentSaveData(Character character) {
         for (Character characterFromSaveData : characters) {
             if (characterFromSaveData.getName().equals(character.getName())) {
@@ -127,7 +152,12 @@ public class SaveDataManager {
         return true;
     }
 
-    public boolean changeCharacterFromCurrentSaveData(Character changedCharacter) {
+    /**
+     *  Updates characters information in current save data.
+     * @param changedCharacter Updated character.
+     * @return True if character has been updated. False otherwise.
+     */
+    public boolean updateCharacterFromCurrentSaveData(Character changedCharacter) {
         for (int characterI = 0; characterI < characters.size(); characterI++) {
             if (characters.get(characterI).getName().equals(changedCharacter.getName())) {
                 characters.remove(characterI);
@@ -141,6 +171,12 @@ public class SaveDataManager {
         return false;
     }
 
+    /**
+     *  Renames character from current save data.
+     * @param previousName Character name.
+     * @param newName Characters new name.
+     * @return True if character has been renamed. False otherwise.
+     */
     public boolean renameCharacterFromCurrentSaveData(String previousName, String newName) {
         if (isCharacterInCurrentSaveData(newName)) {
             logger.error(this, "Character with name \"" + newName + "\" already exists.");
@@ -158,6 +194,11 @@ public class SaveDataManager {
         return false;
     }
 
+    /**
+     *  Removes character from current save data.
+     * @param character Character to remove.
+     * @return True if character has been removed. False otherwise.
+     */
     public boolean removeCharacterFromCurrentSaveData(Character character) {
         for (int characterI = 0; characterI < characters.size(); characterI++) {
             if (characters.get(characterI).getName().equals(character.getName())) {
@@ -170,6 +211,11 @@ public class SaveDataManager {
         return false;
     }
 
+    /**
+     *  Removes character from current save data.
+     * @param name Characters name.
+     * @return True if character has been renamed. False otherwise.
+     */
     public boolean removeCharacterFromCurrentSaveData(String name) {
         for (int characterI = 0; characterI < characters.size(); characterI++) {
             if (characters.get(characterI).getName().equals(name)) {
@@ -182,6 +228,11 @@ public class SaveDataManager {
         return false;
     }
 
+    /**
+     *  Adds cleared level to current save data.
+     * @param levelName Levels name.
+     * @return True if level has been added. False otherwise.
+     */
     public boolean addClearedLevelToCurrentSaveData(String levelName) {
         for (String gameLevelsName : modelControlComponents.getGameLevels().getLevelNamesList()) {
             if (gameLevelsName.equals(levelName)) {
@@ -201,6 +252,11 @@ public class SaveDataManager {
         return false;
     }
 
+    /**
+     *  Checks if level has been cleared.
+     * @param levelName Levels name.
+     * @return True if level has been cleared. False otherwise.
+     */
     public boolean levelIsCleared(String levelName) {
         for (String gameLevelsName : clearedLevels) {
             if (gameLevelsName.equals(levelName)) {
@@ -212,6 +268,11 @@ public class SaveDataManager {
         return false;
     }
 
+    /**
+     *  Removes cleared level from current save data.
+     * @param levelName Levels name.
+     * @return True if level has been removed. False otherwise.
+     */
     public boolean removeClearedLevelFromCurrentSaveData(String levelName) {
         for (int levelI = 0; levelI < clearedLevels.size(); levelI++) {
             if (clearedLevels.get(levelI).equals(levelName)) {
@@ -224,6 +285,11 @@ public class SaveDataManager {
         return false;
     }
 
+    /**
+     *  Removes save data.
+     * @param saveDataIndex Save data index.
+     * @return True if save data has been removed.
+     */
     public boolean removeSaveData(int saveDataIndex) {
         if (saveDataIndex < 0 || saveDataIndex >= saveData.length()) {
             logger.error(this, "Save Data index is out of range: " + saveDataIndex);
@@ -244,6 +310,11 @@ public class SaveDataManager {
         return characters;
     }
 
+    /**
+     *  Returns character from current save data.
+     * @param name Characters name.
+     * @return Character or null.
+     */
     public Character getCharacter(String name) {
         for (Character character : characters) {
             if (character.getName().equals(name)) {
@@ -258,6 +329,10 @@ public class SaveDataManager {
         return clearedLevels;
     }
 
+    /**
+     *  Saves all changes to JSON file.
+     * @return True if changes has been saved.
+     */
     public boolean saveJSONFile() {
         if (Objects.nonNull(saveData) && !saveDataIsRemoved.get() && saveDataIsLoaded.get()) {
             JSONArray charactersArray = new JSONArray();

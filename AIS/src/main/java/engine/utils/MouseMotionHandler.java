@@ -4,6 +4,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ *  Class for getting cursor movements information.
+ */
 public class MouseMotionHandler implements MouseMotionListener {
     private final int[] cursorPosition;
     private final AtomicBoolean isBeingDragged;

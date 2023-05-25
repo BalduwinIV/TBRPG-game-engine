@@ -2,6 +2,9 @@ package engine.tools.itemsManager;
 
 import engine.utils.ImageStorage;
 
+/**
+ *  Items abstract class.
+ */
 public abstract class Item {
     protected String itemType;
     protected int maxAmountInInventory;

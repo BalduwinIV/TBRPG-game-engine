@@ -10,7 +10,7 @@ import engine.utils.Logger;
 import java.util.Objects;
 
 /**
- *  Program models singleton.
+ *  Program models singletons.
  */
 public class ModelControlComponents {
     private ProgramState programState;

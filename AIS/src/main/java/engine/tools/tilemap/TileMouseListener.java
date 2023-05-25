@@ -5,6 +5,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Objects;
 
+/**
+ *  Tile mouse listener for showing popup menu.
+ */
 public class TileMouseListener implements MouseListener {
     private final JPanel invoker;
     private final JButton tileButton;
@@ -17,6 +20,11 @@ public class TileMouseListener implements MouseListener {
         this.tileName = tileName;
     }
 
+    /**
+     *  Shows tiles popup menu.
+     * @param xPos Popup menu position x.
+     * @param yPos Popup menu position y.
+     */
     private void showTilePopupMenu(int xPos, int yPos) {
         JPopupMenu tilePopupMenu = new JPopupMenu("Manage tile");
         JMenuItem renameOption = new JMenuItem("Rename");

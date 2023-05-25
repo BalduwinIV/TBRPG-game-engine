@@ -11,6 +11,9 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ *  Level Chooser window class.
+ */
 public class ChooseLevelWindow extends JFrame {
     private final GUIComponents guiComponents;
     private final ModelControlComponents modelControlComponents;
@@ -46,6 +49,9 @@ public class ChooseLevelWindow extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     *  Shows game level chooser window.
+     */
     public void start() {
         getContentPane().setBackground(new Color(0x808080));
         getContentPane().setLayout(new BorderLayout(5, 5));
@@ -67,6 +73,9 @@ public class ChooseLevelWindow extends JFrame {
         setVisible(true);
     }
 
+    /**
+     *  Updates game level chooser window.
+     */
     public void updateLevelChooser() {
         levelChooser.removeAll();
         for (String levelName : modelControlComponents.getGameLevels().getLevelNamesList()) {
@@ -75,6 +84,10 @@ public class ChooseLevelWindow extends JFrame {
         revalidate();
     }
 
+    /**
+     *  Adds a level button to game level chooser.
+     * @param levelName Levels name.
+     */
     public void addLevelButton(String levelName) {
         JPanel levelPanel = new JPanel();
         levelPanel.setLayout(new GridLayout(1, 1));

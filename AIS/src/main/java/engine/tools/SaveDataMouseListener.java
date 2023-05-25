@@ -6,6 +6,9 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+/**
+ *  Save data button mouse listener for showing popup menu.
+ */
 public class SaveDataMouseListener implements MouseListener {
     private final ModelControlComponents modelControlComponents;
     private final ChooseSaveDataWindow chooseSaveDataWindow;
@@ -19,6 +22,11 @@ public class SaveDataMouseListener implements MouseListener {
         this.saveDataIndex = saveDataIndex;
     }
 
+    /**
+     *  Shows save data popup menu.
+     * @param xPos Popup menu position x.
+     * @param yPos Popup menu position y.
+     */
     private void showSaveDataPopupMenu(int xPos, int yPos) {
         JPopupMenu saveDataPopupMenu = new JPopupMenu("Manage weapon");
         JMenuItem removeOption = new JMenuItem("Remove");

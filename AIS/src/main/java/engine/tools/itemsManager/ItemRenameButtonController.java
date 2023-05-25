@@ -8,6 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
 
+/**
+ *  Rename item button controller.
+ */
 public class ItemRenameButtonController implements ActionListener {
     private final GUIComponents guiComponents;
     private final ModelControlComponents modelControlComponents;

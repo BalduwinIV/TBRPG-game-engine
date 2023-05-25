@@ -3,6 +3,9 @@ package engine.tools.itemsManager.WeaponManager;
 import engine.tools.itemsManager.Item;
 import engine.utils.ImageStorage;
 
+/**
+ *  Weapon class.
+ */
 public class Weapon extends Item {
     private String weaponClass;
     private int might;  /* Adds points to strength/magic */

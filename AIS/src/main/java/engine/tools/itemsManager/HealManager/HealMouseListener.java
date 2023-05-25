@@ -10,6 +10,9 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+/**
+ *  Heal item button listener for showing popup menu on pressing.
+ */
 public class HealMouseListener implements MouseListener {
     private final GUIComponents guiComponents;
     private final ModelControlComponents modelControlComponents;
@@ -25,7 +28,12 @@ public class HealMouseListener implements MouseListener {
         this.isInCharactersInventory = isInCharactersInventory;
     }
 
-    private void showCharacterPopupMenu(int xPos, int yPos) {
+    /**
+     *  Shows weapons popup menu.
+     * @param xPos  Popup menu position x.
+     * @param yPos  Popup menu position y.
+     */
+    private void showHealPopupMenu(int xPos, int yPos) {
         JPopupMenu characterPopupMenu = new JPopupMenu("Manage heal");
         JMenuItem renameOption = new JMenuItem("Rename");
         JMenuItem changeOption = new JMenuItem("Change");
@@ -36,7 +44,7 @@ public class HealMouseListener implements MouseListener {
 
         renameOption.addActionListener(new ItemRenameButtonController(guiComponents, modelControlComponents, healButton, item.getName()));
         changeOption.addActionListener(e -> new ChangeHealCharacteristics(guiComponents, modelControlComponents, (Heal) modelControlComponents.getItemManager().getItem(item.getName())));
-        removeOption.addActionListener(new ItemRemoveButtonController(guiComponents, modelControlComponents, healButton, item.getName(), isInCharactersInventory));
+        removeOption.addActionListener(new ItemRemoveButtonController(guiComponents, healButton, item.getName(), isInCharactersInventory));
 
         characterPopupMenu.show(healButton.getParent(), xPos, yPos);
     }
@@ -44,7 +52,7 @@ public class HealMouseListener implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (SwingUtilities.isRightMouseButton(e)) {
-            showCharacterPopupMenu(healButton.getLocation().x + healButton.getWidth(), healButton.getLocation().y + healButton.getHeight());
+            showHealPopupMenu(healButton.getLocation().x + healButton.getWidth(), healButton.getLocation().y + healButton.getHeight());
         }
     }
 
